@@ -1,134 +1,133 @@
-🌟 Realistic Object Blending with Shadows using Light Direction
-This project demonstrates an automated pipeline for realistic object compositing—seamlessly integrating a foreground object onto a background image with depth-aware shadows and light direction estimation.
+# 🌟 Realistic Object Blending with Shadows using Light Direction
 
-📸 Sample Output
-<p align="center"> <img src="comparison.jpg" width="80%"> </p>
-🎯 Objective
+This project demonstrates an automated pipeline for **realistic object compositing**—seamlessly integrating a foreground object onto a background image with **depth-aware shadows** and **light direction estimation**.
+
+---
+
+## 📸 Sample Output
+
+
+A person is placed onto a background image with a realistic shadow and lighting adjustment that matches the scene.
+
+---
+
+## 🎯 Objective
+
 Blend a person/object into a background image such that:
 
-The background is removed from the object.
+- ✅ The background is removed from the object.
+- ✅ Light direction is estimated automatically.
+- ✅ Shadows are generated realistically using depth and light info.
+- ✅ Object lighting is adjusted to match the background.
 
-Light direction is estimated automatically.
+---
 
-Shadows are generated realistically using depth and light info.
+## 🧰 Technologies Used
 
-Object lighting is adjusted to match the background.
+| Tool/Library       | Purpose                        |
+|--------------------|--------------------------------|
+| Python             | Core scripting language        |
+| OpenCV             | Image processing               |
+| NumPy              | Array computations             |
+| Pillow (PIL)       | Image I/O                      |
+| rembg              | Background removal             |
+| PyTorch + Torchvision | Depth estimation via MiDaS |
+| MiDaS              | Monocular depth prediction     |
+| OS                 | File path handling             |
 
-🧠 Key Features
-✅ Background removal using rembg
+---
 
-✅ Shadow-aware object blending using light direction
+## 📁 Project Structure
 
-✅ Light direction estimation from background
-
-✅ Depth-aware shadow displacement using MiDaS
-
-✅ Realistic shadow softness using Gaussian blur
-
-✅ Automatic lighting adjustment on the object
-
-🧰 Technologies Used
-Tool/Library	Purpose
-Python	Core scripting
-OpenCV	Image processing
-NumPy	Numerical ops
-Pillow (PIL)	Image I/O
-rembg	Background removal
-PyTorch + Torchvision	Depth estimation using MiDaS
-MiDaS	Monocular depth prediction model
-OS	File handling
-
-🗂️ Project Structure
-graphql
-Copy
-Edit
 .
 ├── input/
-│   ├── obj.jpg           # Input object image
-│   ├── obj_mask.png      # Generated binary mask
-│   └── output.png        # Transparent PNG after background removal
-├── generate_mask.py      # Removes BG and creates mask
-├── generate_shadow_output.py  # Final composition pipeline
-├── location.py           # Light direction estimation
-├── bg.jpg                # Background image
-├── enhanced_shadow_result.jpg  # Final output
-└── comparison.jpg        # Side-by-side comparison
-🛠️ How It Works
-1. Background Removal
-Script: generate_mask.py
+│ ├── obj.jpg # Input object image
+│ ├── obj_mask.png # Generated binary mask
+│ └── output.png # Transparent PNG after background removal
+├── generate_mask.py # Removes BG and creates mask
+├── generate_shadow_output.py# Final blending and shadow generation
+├── location.py # Light direction estimation
+├── bg.jpg # Background image
+├── enhanced_shadow_result.jpg # Final output image
+└── comparison.jpg # Side-by-side comparison of before/after
 
-Uses rembg to isolate the object.
+yaml
+Copy
+Edit
 
-Converts alpha channel to a binary mask.
+---
 
-Refines mask using Gaussian blur and threshold.
+## 🚀 How It Works
+
+### Step 1: Background Removal
+**File:** `generate_mask.py`
+
+- Uses `rembg` to remove background.
+- Converts alpha channel to binary mask.
+- Applies Gaussian blur for refinement.
+
+```bash
+python generate_mask.py
+Step 2: Light Direction Estimation
+File: location.py
+
+Converts background to grayscale.
+
+Applies Gaussian blur.
+
+Detects brightest point and estimates light direction.
 
 bash
 Copy
 Edit
-python generate_mask.py
-2. Light Direction Estimation
-Script: location.py
+python location.py
+Step 3: Depth Estimation
+Function: estimate_depth(img) (inside generate_shadow_output.py)
 
-Converts background to grayscale.
+Loads MiDaS model from PyTorch Hub.
 
-Detects brightest region to estimate light source.
+Generates a depth map to influence shadow realism.
 
-Returns a normalized vector (dx, dy).
-
-python
-Copy
-Edit
-direction = detect_brightest_direction(bg_img)
-3. Depth Estimation
-Script: generate_shadow_output.py → estimate_depth(img)
-
-Uses MiDaS (DPT_Large) via PyTorch Hub.
-
-Generates a normalized depth map.
-
-Adds realism by varying shadow softness and direction with depth.
-
-4. Shadow Creation
+Step 4: Shadow Creation
 Function: create_realistic_shadow(...)
 
 Translates object mask based on light direction.
 
-Adds elliptical ground shadow.
+Adds soft, elongated shadows using Gaussian blur.
 
-Blurs and darkens shadows based on scene depth.
+Adds grounding ellipse under object.
 
-5. Object Lighting Adjustment
+Step 5: Lighting Adjustment
 Function: adjust_object_lighting(...)
 
-Applies a lighting gradient on the object using direction vector.
+Applies directional lighting gradient based on light direction vector.
 
-Enhances realism before blending.
+Adjusts object brightness to match the scene.
 
-6. Final Blending
+Step 6: Final Blending
 Function: enhanced_blend_object_shadow(...)
 
-Places the object on background.
+Places the object into the background.
 
-Applies shadows and lighting.
+Blends object and shadows realistically.
 
-Blends all into a final composited output.
+Saves final composited image and comparison view.
 
 bash
 Copy
 Edit
 python generate_shadow_output.py
-💡 Output
-enhanced_shadow_result.jpg: Final image with realistic object and shadow.
+📦 Output
+enhanced_shadow_result.jpg: Final composited image.
 
-comparison.jpg: Side-by-side view of original background vs final blended image.
+comparison.jpg: Side-by-side view of background vs composited output.
 
-📌 Future Enhancements
-Indoor/outdoor lighting distinction.
+💡 Future Improvements
+Better color tone matching between object and background.
 
-Real-time shadow compositing.
+Handle indoor/outdoor lighting scenarios differently.
 
-Color tone matching between object and background.
+Support for multiple light sources and shadows.
 
 📄 License
-This project is for academic and educational use only.
+This project is for educational and academic use only.
