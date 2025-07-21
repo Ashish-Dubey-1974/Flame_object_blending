@@ -6,7 +6,7 @@ This project demonstrates an automated pipeline for **realistic object compositi
 
 ## 📸 Sample Output
 
-
+<p align="center"> <img src="comparison.jpg" width="80%"> </p>
 A person is placed onto a background image with a realistic shadow and lighting adjustment that matches the scene.
 
 ---
@@ -40,22 +40,16 @@ Blend a person/object into a background image such that:
 ## 📁 Project Structure
 
 .
-├── input/
-│ ├── obj.jpg # Input object image
-│ ├── obj_mask.png # Generated binary mask
-│ └── output.png # Transparent PNG after background removal
-├── generate_mask.py # Removes BG and creates mask
-├── generate_shadow_output.py# Final blending and shadow generation
-├── location.py # Light direction estimation
-├── bg.jpg # Background image
-├── enhanced_shadow_result.jpg # Final output image
-└── comparison.jpg # Side-by-side comparison of before/after
-
-yaml
-Copy
-Edit
-
----
+├── input/<br>
+│ ├── obj.jpg # Input object image<br>
+│ ├── obj_mask.png # Generated binary mask<br>
+│ └── output.png # Transparent PNG after background removal<br>
+├── generate_mask.py # Removes BG and creates mask<br>
+├── generate_shadow_output.py# Final blending and shadow generation<br>
+├── location.py # Light direction estimation<br>
+├── bg.jpg # Background image<br>
+├── enhanced_shadow_result.jpg # Final output image<br>
+└── comparison.jpg # Side-by-side comparison of before/after<br>
 
 ## 🚀 How It Works
 
